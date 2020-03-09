@@ -7,7 +7,15 @@
 
     <fragment
         android:id="@+id/alarmsListFragment"
-        android:name="com.learntodroid.simplealarmclock.alarmslist.AlarmViewHolder$AlarmsListFragment"
+        android:name="com.learntodroid.simplealarmclock.alarmslist.AlarmsListFragment"
         android:label="fragment_allalarms"
-        tools:layout="@layout/fragment_listalarms" />
+        tools:layout="@layout/fragment_listalarms" >
+        <action
+            android:id="@+id/action_alarmsListFragment_to_createAlarmFragment"
+            app:destination="@id/createAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAlarmFragment"
+        android:name="com.learntodroid.simplealarmclock.createalarm.CreateAlarmFragment"
+        android:label="CreateAlarmFragment" />
 </navigation>
