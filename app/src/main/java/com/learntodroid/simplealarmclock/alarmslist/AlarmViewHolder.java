@@ -29,30 +29,4 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
 
         alarmTime.setText(alarmText);
     }
-
-    public static class AlarmsListFragment extends Fragment {
-        private AlarmRecyclerViewAdapter alarmRecyclerViewAdapter;
-        private AlarmsListViewModel alarmsListViewModel;
-        private RecyclerView alarmsRecyclerView;
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            alarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter();
-
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_listalarms, container, false);
-
-            alarmsRecyclerView = view.findViewById(R.id.fragment_listalarms_recylerView);
-            alarmsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            alarmsRecyclerView.setAdapter(alarmRecyclerViewAdapter);
-
-            return view;
-        }
-    }
 }
