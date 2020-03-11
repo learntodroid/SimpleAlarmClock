@@ -9,6 +9,15 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
+    public static final String MONDAY = "MONDAY";
+    public static final String TUESDAY = "TUESDAY";
+    public static final String WEDNESDAY = "WEDNESDAY";
+    public static final String THURSDAY = "THURSDAY";
+    public static final String FRIDAY = "FRIDAY";
+    public static final String SATURDAY = "SATURDAY";
+    public static final String SUNDAY = "SUNDAY";
+    public static final String RECURRING = "RECURRING";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
@@ -17,8 +26,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Alarm", Toast.LENGTH_SHORT).show();
             Log.i("onReceive", "onReceive");
 
-            if (!intent.getBooleanExtra("isRecurring", false)) {
-                // not recurring
+            if (!intent.getBooleanExtra(RECURRING, false)) {
                 startAlarmService(context);
             } {
                 if (alarmIsToday(intent)) {
@@ -35,31 +43,31 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         switch(today) {
             case Calendar.MONDAY:
-                if (intent.getBooleanExtra("Mon", false))
+                if (intent.getBooleanExtra(MONDAY, false))
                     return true;
                 return false;
             case Calendar.TUESDAY:
-                if (intent.getBooleanExtra("Tue", false))
+                if (intent.getBooleanExtra(TUESDAY, false))
                     return true;
                 return false;
             case Calendar.WEDNESDAY:
-                if (intent.getBooleanExtra("Wed", false))
+                if (intent.getBooleanExtra(WEDNESDAY, false))
                     return true;
                 return false;
             case Calendar.THURSDAY:
-                if (intent.getBooleanExtra("Thu", false))
+                if (intent.getBooleanExtra(THURSDAY, false))
                     return true;
                 return false;
             case Calendar.FRIDAY:
-                if (intent.getBooleanExtra("Fri", false))
+                if (intent.getBooleanExtra(FRIDAY, false))
                     return true;
                 return false;
             case Calendar.SATURDAY:
-                if (intent.getBooleanExtra("Sat", false))
+                if (intent.getBooleanExtra(SATURDAY, false))
                     return true;
                 return false;
             case Calendar.SUNDAY:
-                if (intent.getBooleanExtra("Sun", false))
+                if (intent.getBooleanExtra(SUNDAY, false))
                     return true;
                 return false;
         }

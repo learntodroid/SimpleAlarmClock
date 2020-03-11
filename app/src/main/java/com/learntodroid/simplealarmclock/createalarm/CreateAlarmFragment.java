@@ -1,11 +1,6 @@
 package com.learntodroid.simplealarmclock.createalarm;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,30 +9,22 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
-import com.learntodroid.simplealarmclock.AlarmBroadcastReceiver;
 import com.learntodroid.simplealarmclock.R;
 import com.learntodroid.simplealarmclock.TimePickerUtil;
 import com.learntodroid.simplealarmclock.data.Alarm;
 
-import java.util.Calendar;
-
 public class CreateAlarmFragment extends Fragment {
-    public static final long RUN_DAILY = 24 * 60 * 60 * 1000;
-
     private TimePicker timePicker;
-    private Button scheduleAlarm, cancelAlarm;
-    private LinearLayout recurringOptions;
+    private Button scheduleAlarm;
     private CheckBox recurring, mon, tue, wed, thu, fri, sat, sun;
-
-    private AlarmManager alarmManager;
-    private PendingIntent alarmPendingIntent;
+    private LinearLayout recurringOptions;
 
     private CreateAlarmViewModel createAlarmViewModel;
 
@@ -86,21 +73,13 @@ public class CreateAlarmFragment extends Fragment {
 
     private void setupButtons(View view) {
         scheduleAlarm = view.findViewById(R.id.fragment_createalarm_scheduleAlarm);
-        cancelAlarm = view.findViewById(R.id.fragment_createalarm_cancelAlarm);
-
         scheduleAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scheduleAlarm();
+                Navigation.findNavController(v).navigate(R.id.action_createAlarmFragment_to_alarmsListFragment);
             }
         });
-
-//        cancelAlarm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cancelAlarm();
-//            }
-//        });
     }
 
     private void scheduleAlarm() {

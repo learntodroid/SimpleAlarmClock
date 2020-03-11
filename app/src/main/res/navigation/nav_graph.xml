@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/createAlarmFragment"
         android:name="com.learntodroid.simplealarmclock.createalarm.CreateAlarmFragment"
-        android:label="CreateAlarmFragment" />
+        android:label="CreateAlarmFragment" >
+        <action
+            android:id="@+id/action_createAlarmFragment_to_alarmsListFragment"
+            app:destination="@id/alarmsListFragment" />
+    </fragment>
 </navigation>

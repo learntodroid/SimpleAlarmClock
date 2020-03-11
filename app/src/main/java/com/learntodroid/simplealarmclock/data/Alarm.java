@@ -12,9 +12,17 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.learntodroid.simplealarmclock.AlarmBroadcastReceiver;
-import com.learntodroid.simplealarmclock.TimePickerUtil;
 
 import java.util.Calendar;
+
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.FRIDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.MONDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.RECURRING;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.SATURDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.SUNDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.THURSDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.TUESDAY;
+import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.WEDNESDAY;
 
 @Entity(tableName = "alarm_table")
 public class Alarm {
@@ -99,14 +107,14 @@ public class Alarm {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
-        intent.putExtra("isRecurring", recurring);
-        intent.putExtra("Mon", monday);
-        intent.putExtra("Tue", tuesday);
-        intent.putExtra("Wed", wednesday);
-        intent.putExtra("Thu", thursday);
-        intent.putExtra("Fri", friday);
-        intent.putExtra("Sat", saturday);
-        intent.putExtra("Sun", sunday);
+        intent.putExtra(RECURRING, recurring);
+        intent.putExtra(MONDAY, monday);
+        intent.putExtra(TUESDAY, tuesday);
+        intent.putExtra(WEDNESDAY, wednesday);
+        intent.putExtra(THURSDAY, thursday);
+        intent.putExtra(FRIDAY, friday);
+        intent.putExtra(SATURDAY, saturday);
+        intent.putExtra(SUNDAY, sunday);
 
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, 0);
 
@@ -136,7 +144,7 @@ public class Alarm {
             );
         }
 
-        this.started = true;    // todo: change is not getting saved to room
+        this.started = true;
 
         Log.i("schedule", timeText);
 
@@ -147,10 +155,41 @@ public class Alarm {
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
-        this.started = false;   // todo: change is not getting saved to room
+        this.started = false;
 
         String timeText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
         Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show();
         Log.i("cancel", timeText);
+    }
+
+    public String getRecurringDaysText() {
+        if (!recurring) {
+            return null;
+        }
+
+        String days = "";
+        if (monday) {
+            days += "Mo ";
+        }
+        if (tuesday) {
+            days += "Tu ";
+        }
+        if (wednesday) {
+            days += "We ";
+        }
+        if (thursday) {
+            days += "Th ";
+        }
+        if (friday) {
+            days += "Fr ";
+        }
+        if (saturday) {
+            days += "Sa ";
+        }
+        if (sunday) {
+            days += "Su ";
+        }
+
+        return days;
     }
 }

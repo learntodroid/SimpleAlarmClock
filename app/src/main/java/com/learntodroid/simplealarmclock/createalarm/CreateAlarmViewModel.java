@@ -17,14 +17,6 @@ public class CreateAlarmViewModel extends AndroidViewModel {
         alarmRepository = new AlarmRepository(application);
     }
 
-    public void schedule() {
-        // todo
-    }
-
-    public void cancel() {
-        // todo
-    }
-
     public void insert(Alarm alarm) {
         alarmRepository.insert(alarm);
     }

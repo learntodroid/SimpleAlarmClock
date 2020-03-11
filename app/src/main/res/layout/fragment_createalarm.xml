@@ -100,10 +100,4 @@
         android:text="Schedule Alarm"
         android:id="@+id/fragment_createalarm_scheduleAlarm" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel Alarm"
-        android:id="@+id/fragment_createalarm_cancelAlarm" />
-
 </LinearLayout>
