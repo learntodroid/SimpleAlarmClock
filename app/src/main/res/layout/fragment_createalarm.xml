@@ -36,6 +36,12 @@
             android:timePickerMode="spinner" />
     </LinearLayout>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Alarm Title"
+        android:id="@+id/fragment_createalarm_title" />
+
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

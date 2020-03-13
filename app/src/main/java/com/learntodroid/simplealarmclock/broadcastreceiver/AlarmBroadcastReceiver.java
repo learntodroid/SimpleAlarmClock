@@ -1,10 +1,12 @@
-package com.learntodroid.simplealarmclock;
+package com.learntodroid.simplealarmclock.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.learntodroid.simplealarmclock.service.AlarmService;
 
 import java.util.Calendar;
 
@@ -17,6 +19,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String SATURDAY = "SATURDAY";
     public static final String SUNDAY = "SUNDAY";
     public static final String RECURRING = "RECURRING";
+    public static final String TITLE = "TITLE";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,10 +30,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             Log.i("onReceive", "onReceive");
 
             if (!intent.getBooleanExtra(RECURRING, false)) {
-                startAlarmService(context);
+                startAlarmService(context, intent);
             } {
                 if (alarmIsToday(intent)) {
-                    startAlarmService(context);
+                    startAlarmService(context, intent);
                 }
             }
         }
@@ -74,8 +77,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         return false;
     }
 
-    private void startAlarmService(Context context) {
+    private void startAlarmService(Context context, Intent intent) {
         Intent intentService = new Intent(context, AlarmService.class);
+        intentService.putExtra(TITLE, intent.getStringExtra(TITLE));
         context.startService(intentService);
     }
 }

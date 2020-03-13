@@ -1,4 +1,4 @@
-package com.learntodroid.simplealarmclock;
+package com.learntodroid.simplealarmclock.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -8,11 +8,16 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import static com.learntodroid.simplealarmclock.App.CHANNEL_ID;
+import com.learntodroid.simplealarmclock.R;
+import com.learntodroid.simplealarmclock.activities.RingActivity;
+
+import static com.learntodroid.simplealarmclock.application.App.CHANNEL_ID;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
@@ -34,8 +39,10 @@ public class AlarmService extends Service {
         Intent notificationIntent = new Intent(this, RingActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+        String alarmTitle = String.format("%s Alarm", intent.getStringExtra(TITLE));
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Alarm Service")
+                .setContentTitle(alarmTitle)
                 .setContentText("Ring Ring .. Ring Ring")
                 .setSmallIcon(R.drawable.ic_alarm_black_24dp)
                 .setContentIntent(pendingIntent)

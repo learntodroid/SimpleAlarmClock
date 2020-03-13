@@ -1,9 +1,11 @@
-package com.learntodroid.simplealarmclock;
+package com.learntodroid.simplealarmclock.activities;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.learntodroid.simplealarmclock.R;
 
 public class MainActivity extends AppCompatActivity {
 

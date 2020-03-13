@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
@@ -17,12 +18,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.learntodroid.simplealarmclock.R;
-import com.learntodroid.simplealarmclock.TimePickerUtil;
 import com.learntodroid.simplealarmclock.data.Alarm;
+
+import java.util.Random;
 
 public class CreateAlarmFragment extends Fragment {
     private TimePicker timePicker;
     private Button scheduleAlarm;
+    private EditText title;
     private CheckBox recurring, mon, tue, wed, thu, fri, sat, sun;
     private LinearLayout recurringOptions;
 
@@ -41,6 +44,7 @@ public class CreateAlarmFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_createalarm, container, false);
 
         timePicker = view.findViewById(R.id.fragment_createalarm_timePicker);
+        title = view.findViewById(R.id.fragment_createalarm_title);
 
         setupRecurringOptions(view);
         setupButtons(view);
@@ -83,12 +87,13 @@ public class CreateAlarmFragment extends Fragment {
     }
 
     private void scheduleAlarm() {
-        int alarmId = TimePickerUtil.getInstance().getTimePickerHour(timePicker) * TimePickerUtil.getInstance().getTimePickerMinute(timePicker);
+        int alarmId = new Random().nextInt(Integer.MAX_VALUE);
 
         Alarm alarm = new Alarm(
                 alarmId,
                 TimePickerUtil.getInstance().getTimePickerHour(timePicker),
                 TimePickerUtil.getInstance().getTimePickerMinute(timePicker),
+                title.getText().toString(),
                 true,
                 recurring.isChecked(),
                 mon.isChecked(),

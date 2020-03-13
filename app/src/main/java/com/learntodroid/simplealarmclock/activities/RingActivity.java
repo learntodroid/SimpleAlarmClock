@@ -1,4 +1,4 @@
-package com.learntodroid.simplealarmclock;
+package com.learntodroid.simplealarmclock.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,11 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.learntodroid.simplealarmclock.R;
+import com.learntodroid.simplealarmclock.service.AlarmService;
+
 public class RingActivity extends AppCompatActivity {
-    private Button dismiss;
+    private Button dismiss, snooze;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,5 +28,7 @@ public class RingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //todo implement snooze button
     }
 }

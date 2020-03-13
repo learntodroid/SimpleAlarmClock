@@ -1,4 +1,4 @@
-package com.learntodroid.simplealarmclock;
+package com.learntodroid.simplealarmclock.application;
 
 import android.app.Application;
 import android.app.NotificationChannel;

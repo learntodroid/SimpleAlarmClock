@@ -11,18 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.learntodroid.simplealarmclock.AlarmBroadcastReceiver;
+import com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver;
+import com.learntodroid.simplealarmclock.createalarm.DayUtil;
 
 import java.util.Calendar;
 
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.FRIDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.MONDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.RECURRING;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.SATURDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.SUNDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.THURSDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.TUESDAY;
-import static com.learntodroid.simplealarmclock.AlarmBroadcastReceiver.WEDNESDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.RECURRING;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.SUNDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
+import static com.learntodroid.simplealarmclock.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
 
 @Entity(tableName = "alarm_table")
 public class Alarm {
@@ -33,8 +35,9 @@ public class Alarm {
     private int hour, minute;
     private boolean started, recurring;
     private boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+    private String title;
 
-    public Alarm(int alarmId, int hour, int minute, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+    public Alarm(int alarmId, int hour, int minute, String title, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
         this.alarmId = alarmId;
         this.hour = hour;
         this.minute = minute;
@@ -49,6 +52,8 @@ public class Alarm {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
+
+        this.title = title;
     }
 
     public int getHour() {
@@ -116,6 +121,8 @@ public class Alarm {
         intent.putExtra(SATURDAY, saturday);
         intent.putExtra(SUNDAY, sunday);
 
+        intent.putExtra(TITLE, title);
+
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
@@ -125,8 +132,13 @@ public class Alarm {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        String timeText = String.format("Alarm scheduled for %02d:%02d with id %d", hour, minute, alarmId);
-        Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show();
+        // if alarm time has already passed, increment day by 1
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        }
+
+        String toastText = String.format("Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
         if (!recurring) {
             alarmManager.setExact(
@@ -146,7 +158,7 @@ public class Alarm {
 
         this.started = true;
 
-        Log.i("schedule", timeText);
+        Log.i("schedule", toastText);
 
     }
 
@@ -157,9 +169,9 @@ public class Alarm {
         alarmManager.cancel(alarmPendingIntent);
         this.started = false;
 
-        String timeText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
-        Toast.makeText(context, timeText, Toast.LENGTH_SHORT).show();
-        Log.i("cancel", timeText);
+        String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+        Log.i("cancel", toastText);
     }
 
     public String getRecurringDaysText() {
@@ -191,5 +203,9 @@ public class Alarm {
         }
 
         return days;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
