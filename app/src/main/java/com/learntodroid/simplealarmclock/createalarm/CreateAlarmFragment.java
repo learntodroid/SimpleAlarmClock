@@ -91,8 +91,8 @@ public class CreateAlarmFragment extends Fragment {
 
         Alarm alarm = new Alarm(
                 alarmId,
-                TimePickerUtil.getInstance().getTimePickerHour(timePicker),
-                TimePickerUtil.getInstance().getTimePickerMinute(timePicker),
+                TimePickerUtil.getTimePickerHour(timePicker),
+                TimePickerUtil.getTimePickerMinute(timePicker),
                 title.getText().toString(),
                 true,
                 recurring.isChecked(),
