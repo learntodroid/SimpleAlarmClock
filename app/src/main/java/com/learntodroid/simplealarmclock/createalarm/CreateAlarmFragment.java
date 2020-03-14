@@ -22,12 +22,22 @@ import com.learntodroid.simplealarmclock.data.Alarm;
 
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CreateAlarmFragment extends Fragment {
-    private TimePicker timePicker;
-    private Button scheduleAlarm;
-    private EditText title;
-    private CheckBox recurring, mon, tue, wed, thu, fri, sat, sun;
-    private LinearLayout recurringOptions;
+    @BindView(R.id.fragment_createalarm_timePicker) TimePicker timePicker;
+    @BindView(R.id.fragment_createalarm_title) EditText title;
+    @BindView(R.id.fragment_createalarm_scheduleAlarm) Button scheduleAlarm;
+    @BindView(R.id.fragment_createalarm_recurring) CheckBox recurring;
+    @BindView(R.id.fragment_createalarm_checkMon) CheckBox mon;
+    @BindView(R.id.fragment_createalarm_checkTue) CheckBox tue;
+    @BindView(R.id.fragment_createalarm_checkWed) CheckBox wed;
+    @BindView(R.id.fragment_createalarm_checkThu) CheckBox thu;
+    @BindView(R.id.fragment_createalarm_checkFri) CheckBox fri;
+    @BindView(R.id.fragment_createalarm_checkSat) CheckBox sat;
+    @BindView(R.id.fragment_createalarm_checkSun) CheckBox sun;
+    @BindView(R.id.fragment_createalarm_recurring_options) LinearLayout recurringOptions;
 
     private CreateAlarmViewModel createAlarmViewModel;
 
@@ -43,25 +53,7 @@ public class CreateAlarmFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_createalarm, container, false);
 
-        timePicker = view.findViewById(R.id.fragment_createalarm_timePicker);
-        title = view.findViewById(R.id.fragment_createalarm_title);
-
-        setupRecurringOptions(view);
-        setupButtons(view);
-
-        return view;
-    }
-
-    private void setupRecurringOptions(View view) {
-        recurringOptions = view.findViewById(R.id.fragment_createalarm_recurring_options);
-        recurring = view.findViewById(R.id.fragment_createalarm_recurring);
-        mon = view.findViewById(R.id.fragment_createalarm_checkMon);
-        tue = view.findViewById(R.id.fragment_createalarm_checkTue);
-        wed = view.findViewById(R.id.fragment_createalarm_checkWed);
-        thu = view.findViewById(R.id.fragment_createalarm_checkThu);
-        fri = view.findViewById(R.id.fragment_createalarm_checkFri);
-        sat = view.findViewById(R.id.fragment_createalarm_checkSat);
-        sun = view.findViewById(R.id.fragment_createalarm_checkSun);
+        ButterKnife.bind(this, view);
 
         recurring.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -73,10 +65,7 @@ public class CreateAlarmFragment extends Fragment {
                 }
             }
         });
-    }
 
-    private void setupButtons(View view) {
-        scheduleAlarm = view.findViewById(R.id.fragment_createalarm_scheduleAlarm);
         scheduleAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +73,8 @@ public class CreateAlarmFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_createAlarmFragment_to_alarmsListFragment);
             }
         });
+
+        return view;
     }
 
     private void scheduleAlarm() {
