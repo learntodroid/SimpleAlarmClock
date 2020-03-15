@@ -23,12 +23,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Toast.makeText(context, "Action Boot Complete", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Alarm", Toast.LENGTH_SHORT).show();
-            Log.i("onReceive", "onReceive");
-
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            String toastText = String.format("Alarm Received");
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             if (!intent.getBooleanExtra(RECURRING, false)) {
                 startAlarmService(context, intent);
             } {
