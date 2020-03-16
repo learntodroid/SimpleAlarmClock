@@ -138,7 +138,7 @@ public class Alarm {
         }
 
         String toastText = String.format("Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
         if (!recurring) {
             alarmManager.setExact(
