@@ -1,9 +1,12 @@
 package com.learntodroid.simplealarmclock.activities;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +25,7 @@ import butterknife.ButterKnife;
 public class RingActivity extends AppCompatActivity {
     @BindView(R.id.activity_ring_dismiss) Button dismiss;
     @BindView(R.id.activity_ring_snooze) Button snooze;
+    @BindView(R.id.activity_ring_clock) ImageView clock;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,5 +73,14 @@ public class RingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        animateClock();
+    }
+
+    private void animateClock() {
+        ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(clock, "rotation", 0f, 20f, 0f, -20f, 0f);
+        rotateAnimation.setRepeatCount(ValueAnimator.INFINITE);
+        rotateAnimation.setDuration(800);
+        rotateAnimation.start();
     }
 }
