@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/fragment_listalarms_myAlarms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="My Alarms"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textAlignment="center"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_listalarms_recylerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fragment_listalarms_recylerView">
+            app:layout_constraintTop_toBottomOf="@+id/fragment_listalarms_myAlarms">
+
         </androidx.recyclerview.widget.RecyclerView>
 
         <Button
             android:id="@+id/fragment_listalarms_addAlarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Alarm" />
+            android:layout_gravity="bottom"
+            android:text="Add Alarm"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
