@@ -137,16 +137,24 @@ public class Alarm {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
         }
 
-        String toastText = String.format("Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
-        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
-
         if (!recurring) {
+            String toastText = null;
+            try {
+                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+
             alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
                     alarmPendingIntent
             );
         } else {
+            String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
+            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+
             final long RUN_DAILY = 24 * 60 * 60 * 1000;
             alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
@@ -157,9 +165,6 @@ public class Alarm {
         }
 
         this.started = true;
-
-        Log.i("schedule", toastText);
-
     }
 
     public void cancelAlarm(Context context) {
