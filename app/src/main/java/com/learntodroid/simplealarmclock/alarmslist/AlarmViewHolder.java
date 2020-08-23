@@ -1,5 +1,6 @@
 package com.learntodroid.simplealarmclock.alarmslist;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -16,9 +17,12 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private ImageView alarmRecurring;
     private TextView alarmRecurringDays;
     private TextView alarmTitle;
-    private Switch alarmStarted;
 
-    public AlarmViewHolder(@NonNull View itemView) {
+    Switch alarmStarted;
+
+    private OnToggleAlarmListener listener;
+
+    public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener) {
         super(itemView);
 
         alarmTime = itemView.findViewById(R.id.item_alarm_time);
@@ -26,9 +30,11 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         alarmRecurring = itemView.findViewById(R.id.item_alarm_recurring);
         alarmRecurringDays = itemView.findViewById(R.id.item_alarm_recurringDays);
         alarmTitle = itemView.findViewById(R.id.item_alarm_title);
+
+        this.listener = listener;
     }
 
-    public void bind(Alarm alarm, OnToggleAlarmListener listener) {
+    public void bind(Alarm alarm) {
         String alarmText = String.format("%02d:%02d", alarm.getHour(), alarm.getMinute());
 
         alarmTime.setText(alarmText);
@@ -43,9 +49,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (alarm.getTitle().length() != 0) {
-            alarmTitle.setText(alarm.getTitle());
+            alarmTitle.setText(String.format("%s | %d | %d", alarm.getTitle(), alarm.getAlarmId(), alarm.getCreated()));
         } else {
-            alarmTitle.setText("My alarm");
+            alarmTitle.setText(String.format("%s | %d | %d", "Alarm", alarm.getAlarmId(), alarm.getCreated()));
         }
 
         alarmStarted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

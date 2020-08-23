@@ -85,6 +85,7 @@ public class CreateAlarmFragment extends Fragment {
                 TimePickerUtil.getTimePickerHour(timePicker),
                 TimePickerUtil.getTimePickerMinute(timePicker),
                 title.getText().toString(),
+                System.currentTimeMillis(),
                 true,
                 recurring.isChecked(),
                 mon.isChecked(),
