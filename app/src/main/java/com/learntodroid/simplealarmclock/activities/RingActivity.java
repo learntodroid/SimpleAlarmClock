@@ -55,6 +55,7 @@ public class RingActivity extends AppCompatActivity {
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),
                         "Snooze",
+                        System.currentTimeMillis(),
                         true,
                         false,
                         false,
