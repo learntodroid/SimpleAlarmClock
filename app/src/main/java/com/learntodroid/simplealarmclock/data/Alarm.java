@@ -150,15 +150,7 @@ public class Alarm {
                 e.printStackTrace();
             }
             Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
-
-            if (Build.VERSION.SDK_INT >= 23) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmPendingIntent);
-            } else if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmPendingIntent);
-            } else {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmPendingIntent);
-            }
-
+            setAlarm(alarmManager, calendar.getTimeInMillis(), alarmPendingIntent);
         } else {
             String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
             Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
@@ -173,6 +165,16 @@ public class Alarm {
         }
 
         this.started = true;
+    }
+
+    public void setAlarm(AlarmManager alarmManager, long alarmTime, PendingIntent alarmPendingIntent) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTime, alarmPendingIntent);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime, alarmPendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmPendingIntent);
+        }
     }
 
     public void cancelAlarm(Context context) {
