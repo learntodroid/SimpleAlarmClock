@@ -155,6 +155,9 @@ public class Alarm {
             String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
             Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
+            // todo - code changes required to move away from setRepeating(...) as it does not fire
+            // when device is dozed, need to use set exact and reschedule the alarm daily after it
+            // fires, potential updates to AlarmService, AlarmBroadcastReceiver and RingActivity required
             final long RUN_DAILY = 24 * 60 * 60 * 1000;
             alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
